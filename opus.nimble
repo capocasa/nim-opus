@@ -9,3 +9,5 @@ license       = "BSD-3-Clause"
 # Dependencies
 
 requires "nim >= 1.4.2"
+requires "nimterop"
+
