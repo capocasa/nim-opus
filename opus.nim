@@ -88,8 +88,6 @@ proc cleanup(samples: Samples) =
 template bytes*(samples: Samples): int =
   samples.len * sizeof(int16)
 
-import random
-
 proc decode*(decoder: Decoder, encoded: openArray[byte], errorCorrection: bool = false): Samples =
   ## Use a decoder to get samples from a packet of compressed data. The samples are PCM and can be
   ## played back using any audio interface, or converted to a different format.
@@ -106,8 +104,6 @@ proc decode*(decoder: Decoder, encoded: openArray[byte], errorCorrection: bool =
   if frameSize < 0:
     raise newException(DecodeError, $strerror(frameSize))
   result.len = frameSize * decoder.channels.int
-  #for i in 0..<result.len:
-  #  result.data[i] = rand(int16) div 2
 
 template decode*(decoder: Decoder, encoded: ptr UncheckedArray[byte], len: int, errorCorrection: bool = false): Samples =
   ## Decode from data in an unchecked array with a length
