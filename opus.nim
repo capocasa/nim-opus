@@ -68,7 +68,7 @@ type
 proc cleanup(decoder: Decoder) =
   decoder_destroy(decoder.raw)
 
-proc newDecoder*(sampleRate: SampleRate, channels: Channels): Decoder =
+proc newDecoder*(sampleRate: SampleRate = sr48000, channels: Channels = chStereo): Decoder =
   ## Initialize a new decoder for a given sample rate and channel setup.
   ## A decoder allocated this way will be memory safe.
   new(result, cleanup)
