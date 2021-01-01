@@ -43,7 +43,7 @@ proc newDecoder*(sampleRate: SampleRate, channels: Channels): Decoder =
     raise newException(InitError, $strerror(errorCode))
 
 proc cleanup(samples: Samples) =
-  dealloc(samples.data)
+  deallocShared(samples.data)
 
 template bytes*(samples: Samples): int =
   samples.len * sizeof(int16)
@@ -52,7 +52,7 @@ import random
 
 proc decode*(decoder: Decoder, encoded: openArray[byte], errorCorrection: bool = false): Samples =
   new(result, cleanup)
-  result.data = cast[ptr UncheckedArray[int16]](alloc0(maxFrameSize * decoder.channels.int))
+  result.data = cast[ptr UncheckedArray[int16]](allocShared0(maxFrameSize * decoder.channels.int))
   let frameSize = decode(
     decoder.raw,
     cast[ptr cuchar](encoded.unsafeAddr),
