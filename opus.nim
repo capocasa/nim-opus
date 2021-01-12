@@ -81,8 +81,7 @@ proc newDecoder*(sampleRate: SampleRate = sr48k, channels: Channels = chStereo):
 
 proc cleanup(samples: Samples) =
   ## The function that is called by a decoder ref's finalizer to remove its memory
-  dealloc(samples.data)
-
+  deallocShared(samples.data)
 
 # The number of bytes contained by a Samples object
 template bytes*(samples: Samples): int =
@@ -92,7 +91,7 @@ proc decode*(decoder: Decoder, encoded: openArray[byte], errorCorrection: bool =
   ## Use a decoder to get samples from a packet of compressed data. The samples are PCM and can be
   ## played back using any audio interface, or converted to a different format.
   new(result, cleanup)
-  result.data = cast[ptr UncheckedArray[int16]](alloc0(maxFrameSize * decoder.channels.int))
+  result.data = cast[ptr UncheckedArray[int16]](allocShared0(maxFrameSize * decoder.channels.int))
   let frameSize = decode(
     decoder.raw,
     cast[ptr cuchar](encoded.unsafeAddr),
