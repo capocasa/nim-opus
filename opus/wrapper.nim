@@ -18,8 +18,10 @@ getHeader(
   "opus.h",
   giturl = "https://gitlab.xiph.org/xiph/opus.git",
   outdir = baseDir,
-  mesonFlags = "--default-library=static"
 )
+
+when defined(windows):
+  {.passL: "-fstack-protector"}
 
 cPlugin:
   import strutils
