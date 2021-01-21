@@ -91,7 +91,7 @@ proc decode*(decoder: Decoder, encoded: openArray[byte], errorCorrection: bool =
   ## Use a decoder to get samples from a packet of compressed data. The samples are PCM and can be
   ## played back using any audio interface, or converted to a different format.
   new(result, cleanup)
-  result.data = cast[ptr UncheckedArray[int16]](allocShared0(maxFrameSize * decoder.channels.int))
+  result.data = cast[ptr UncheckedArray[int16]](allocShared0(maxFrameSize * decoder.channels.int * sizeof(int16)))
   let frameSize = decode(
     decoder.raw,
     cast[ptr cuchar](encoded.unsafeAddr),
