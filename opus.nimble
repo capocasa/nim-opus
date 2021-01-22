@@ -10,4 +10,4 @@ license       = "BSD-3-Clause"
 
 requires "nim >= 1.4.2"
 requires "nimterop"
-
+foreignDep "cmake"
